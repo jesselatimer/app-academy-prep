@@ -1,6 +1,5 @@
 # Jesse Latimer, App Academy Prep, w1d2
 # Because of work commitments, I did this project solo rather than in a pair.
-# Features to implement: turn count
 
 class TowersOfHanoi
 
