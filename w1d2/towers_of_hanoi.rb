@@ -8,13 +8,13 @@ class TowersOfHanoi
     puts "Welcome to Tower of Hanoi!"
     puts "How many disks do you want to play with?"
 
-    disks = gets.chomp.to_i
-    while disks < 1
+    @disks = gets.chomp.to_i
+    while @disks < 1
       puts "Invalid input. Please enter an integer greater than 0."
-      disks = gets.chomp.to_i
+      @disks = gets.chomp.to_i
     end
 
-    @winning_condition = (1..disks).to_a.reverse
+    @winning_condition = (1..@disks).to_a.reverse
 
     @left = @winning_condition
     @middle = []
@@ -30,7 +30,7 @@ class TowersOfHanoi
   end
 
   def success?
-    true if @middle == @winning_condition || @right == @winning_condition
+    @middle == @winning_condition || @right == @winning_condition
   end
 
   def state_of_game
@@ -47,16 +47,29 @@ class TowersOfHanoi
 
   def valid_move?(from, to)
     if transform_input(to).empty?
-      true
+      return true
     elsif transform_input(from)[-1] < transform_input(to)[-1]
-      true
+      return true
+    end
+
+    false
+  end
+
+  def victory(turn_count)
+    puts state_of_game + " <- WOWOA!"
+    puts "Look at that! You win!"
+    puts "And in only #{turn_count} moves!"
+    if turn_count == (2 ** @disks) - 1
+      puts "That's the best you can do!"
+    else
+      puts "It's possible to do it in #{(2 ** @disks) - 1} moves, though. :("
     end
   end
 
   def start_loop
+    turn_count = 0
     until success?
       puts state_of_game
-
       puts "Which stack do you want to move from?"
       move_from = gets.chomp.downcase
       next if transform_input(move_from).nil?
@@ -71,13 +84,13 @@ class TowersOfHanoi
 
       if valid_move?(move_from, move_to)
         transform_input(move_to) << transform_input(move_from).pop
+        turn_count += 1
       else
         error
       end
     end
 
-    puts state_of_game + " <- WOWOA!"
-    puts "Look at that! You win!"
+    victory(turn_count)
   end
 end
 
