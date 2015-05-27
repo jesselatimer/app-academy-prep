@@ -32,7 +32,7 @@ class TowersOfHanoi
   end
 
   def success?
-    @middle == @winning_condition || @right == @winning_condition
+    [@middle, @right].include?(@winning_condition)
   end
 
   def state_of_game
@@ -75,7 +75,6 @@ class TowersOfHanoi
   def get_player_input
     puts "Which stack do you want to move from?"
     move_from = gets.chomp.downcase
-
     puts "Which stack do you want to move to?"
     move_to = gets.chomp.downcase
 
