@@ -1,20 +1,21 @@
 class MyHashSet
+  attr_reader :store
 
   def initialize
     @store = {}
   end
 
   def insert(el)
-    @store[el] = true
+    store[el] = true
   end
 
   def include?(el)
-    @store.has_key?(el)
+    store.has_key?(el)
   end
 
   def delete(el)
-    if @store.has_key?(el)
-      @store.delete(el)
+    if store.has_key?(el)
+      store.delete(el)
       return true
     else
       return false
@@ -22,7 +23,7 @@ class MyHashSet
   end
 
   def to_a
-    @store.keys
+    store.keys
   end
 
   def union(set2)
