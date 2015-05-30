@@ -1,8 +1,13 @@
 def translate(str)
-  words = str.split(" ").map do |word|
-    consonants = word.slice!(/^[^aeiou]+/)
-    yoos = word.slice!(/^u/) if consonants.to_s[-1] == "q"
-    word + consonants.to_s + yoos.to_s + "ay"
+  words = str.split.map do |word|
+    word == word.capitalize ? capital = true : capital = false
+    consonant_cluster = word.slice!(/^([^aeiou]*qu|[^aeiou]+)/)
+    punctuation = word.slice!(/(\.|\?|!)/)
+    word += consonant_cluster if consonant_cluster
+    word += "ay"
+    word += punctuation if punctuation
+    word.capitalize! if capital
+    word
   end
 
   words.join(" ")
