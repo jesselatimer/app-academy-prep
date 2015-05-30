@@ -74,8 +74,8 @@ describe "#translate" do
   # * retain the punctuation from the original phrase
 
   it "retains capitalization" do
-    s = translate("May the Way Open")
-    s.should == "Aymay ethay Ayway Openay"
+    s = translate("Open Sesame Open")
+    s.should == "Openay Esamesay Openay"
   end
 
   it "retains punctuation" do
