@@ -8,7 +8,7 @@ end
 def translate_word(word)
   capital = (word == word.capitalize)
   consonant_cluster = word.slice!(/^[^aeiou]*qu|^[^aeiou]+/i)
-  punctuation = word.slice!(/(\.|\?|!)/)
+  punctuation = word.slice!(/(\.|\?|!|,|;|:)/)
   word = "#{word}#{consonant_cluster.to_s}ay#{punctuation.to_s}"
   word.capitalize! if capital
   word
