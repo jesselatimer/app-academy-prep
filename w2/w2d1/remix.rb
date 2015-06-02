@@ -6,6 +6,7 @@ class Remix
 
   def remix
     until mixed?
+      # Use shuffle_alchohols and shuffle_mixers instead, for readability.
       alchohols = extract_and_shuffle_ingredients(0)
       mixers = extract_and_shuffle_ingredients(1)
       @mixed_ingredients = mix_ingredients(alchohols, mixers)
