@@ -22,6 +22,7 @@ class Remix
     @ingredients.map { |mix| mix[index] }.shuffle
   end
 
+  # Use Enumerable#zip instead.
   def mix_ingredients(alchohols, mixers)
     alchohols.map.with_index { |alchohol, i| [alchohol, mixers[i]] }
   end
