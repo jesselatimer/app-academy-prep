@@ -4,9 +4,13 @@ class RPNCalculator
   
   def initialize
       @calc_stack = []
-      file_name = ARGV[0]
-      p file_name
-      evaluate_file(file_name) unless file_name.nil?
+      if !ARGV.empty? && __FILE__ == $PROGRAM_NAME
+          file_name = ARGV[0]
+          evaluate_file(file_name)
+      else
+          evaluate_input
+      end
+      
   end
   
   def value
@@ -58,34 +62,40 @@ class RPNCalculator
   
   def evaluate(str)
       tokens(str).each do |char|
+        evaluate_character(char)
+      end
+      value
+  end
+  
+  def evaluate_character(char)
         case char
-        when Fixnum
-            push(char)
-        when :+
-            plus
-        when :-
-            minus
-        when :*
-            times
-        when :/
-            divide
+        when Fixnum then push(char)
+        when :+ then plus
+        when :- then minus
+        when :* then times
+        when :/ then divide
         else
             raise("Not a valid character.")
         end
-      end
-      value
   end
   
   def evaluate_file(file_name)
-      File.open(file_name) do |f|
-         evaluate(f) 
+      File.foreach(file_name) do |line|
+         evaluate(line.strip) 
       end
-      p value
-      value
   end
   
+  def evaluate_input
+      input_string = ""
+      puts "Enter stuff."
+      char = gets.chomp
+      until char.empty? do
+          input_string << " #{char}"
+          char = gets.chomp
+      end
+      evaluate(input_string.strip)
+  end
 end
 
-RPNCalculator.new
-# calc = RPNCalculator.new
-# p calc.evaluate("1 2 3 + - 57 2 98 * /")
+x = RPNCalculator.new
+p x.value
