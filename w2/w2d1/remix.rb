@@ -6,10 +6,7 @@ class Remix
 
   def remix
     until mixed?
-      # Use shuffle_alchohols and shuffle_mixers instead, for readability.
-      alchohols = extract_and_shuffle_ingredients(0)
-      mixers = extract_and_shuffle_ingredients(1)
-      @mixed_ingredients = mix_ingredients(alchohols, mixers)
+      @mixed_ingredients = mix_ingredients(shuffle_alchohols, shuffle_mixers)
     end
     @mixed_ingredients
   end
@@ -19,19 +16,22 @@ class Remix
     @mixed_ingredients.none? { |mix| @ingredients.include?(mix) }
   end
 
-  def extract_and_shuffle_ingredients(index)
-    @ingredients.map { |mix| mix[index] }.shuffle
+  def shuffle_alchohols
+    @ingredients.map { |mix| mix[0] }.shuffle
   end
 
-  # Use Enumerable#zip instead.
+  def shuffle_mixers
+    @ingredients.map { |mix| mix[1] }.shuffle
+  end
+
   def mix_ingredients(alchohols, mixers)
-    alchohols.map.with_index { |alchohol, i| [alchohol, mixers[i]] }
+    alchohols.zip(mixers)
   end
 end
 
-remix = Remix.new([
+mix_it = Remix.new([
   ["rum", "coke"],
   ["gin", "tonic"],
   ["scotch", "soda"]
 ])
-p remix.remix
+p mix_it.remix
