@@ -10,7 +10,6 @@ class RPNCalculator
       else
           evaluate_input
       end
-      
   end
   
   def value
