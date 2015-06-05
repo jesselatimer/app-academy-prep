@@ -2,44 +2,40 @@
 
 class Board
   attr_reader :grid
-  
+
   def initialize
     @grid = Array.new(3) { Array.new(3) }
   end
-  
+
   def [](row, col)
     @grid[row][col]
   end
-  
+
   def []=(row, col, mark)
     @grid[row][col] = mark
   end
-  
+
   def inspect
     display = {:x => "X", :o => "O", nil => " "}
     display_grid = @grid.map do |row|
       row.map { |char| display[char] }
     end
-    repr = ""
-    display_grid.each do |line|
-      repr << line.join(" | ")
-      repr << "\n---------\n"
-    end
-    repr
+    display_grid.map! { |line| line.join(" | ") }
+    display_grid.join("\n---------\n")
   end
-  
+
   def empty?(pos)
     self[*pos].nil?
   end
-  
+
   def on_grid?(pos)
     (0..2).include?(pos[0]) && (0..2).include?(pos[1])
   end
-  
+
   def on_diagonal?(pos)
     [[0, 0], [0, 2], [1, 1], [2, 0], [2, 2]].include?(pos)
   end
-  
+
   def get_diagonal_arrays(pos)
     diag1 = [[0, 0], [1, 1], [2, 2]]
     diag2 = [[0, 2], [1, 1], [2, 0]]
@@ -55,20 +51,20 @@ class Board
       return [diag2_vals]
     end
   end
-  
+
   def transpose
     @grid[0].zip(@grid[1], @grid[2])
   end
-  
+
   def place_mark(pos, mark)
     self[*pos] = mark if empty?(pos)
   end
-  
+
   def won?
     # Returns true if either check returns a value.
     !check_lines(:o, 3).nil? || !check_lines(:x, 3).nil?
   end
-  
+
   def winner
     if !check_lines(:x, 3).nil?
       return :x
@@ -78,7 +74,7 @@ class Board
       return nil
     end
   end
-  
+
   def check_lines(mark, number)
     @grid.each_with_index do |row, i|
       row.each_with_index do |elem, j|
@@ -94,17 +90,17 @@ class Board
     end
     nil
   end
-  
+
 end
 
 class HumanPlayer
-  
+
   attr_reader :mark
-  
+
   def initialize(mark)
     @mark = mark
   end
-  
+
   def get_move(board)
     puts "What is your move?"
     pos = gets.chomp.split(",").map { |num| num.to_i }
@@ -114,23 +110,23 @@ class HumanPlayer
     end
     pos
   end
-  
+
 end
 
 class ComputerPlayer
-  
+
   attr_reader :mark
-  
+
   def initialize(mark)
     @mark = mark
   end
-  
+
   def get_move(board)
     puts "Computer is moving."
     return winnable(board) unless winnable(board).nil?
     random_move(board)
   end
-  
+
   def random_move(board)
     while true # We know this is bad, we'll fix it.
       pos = [(0..2).to_a.sample, (0..2).to_a.sample]
@@ -141,20 +137,20 @@ class ComputerPlayer
   def winnable(board)
     board.check_lines(mark, 2)
   end
-    
-  
+
+
 end
 
 class Game
-  
+
   attr_reader :board
-  
+
   def initialize
     @board = Board.new
     @players = []
     puts "The board is now on board."
   end
-  
+
   def greet
     p board
     puts "X: Human or Computer?"
@@ -162,7 +158,7 @@ class Game
     puts "O: Human or Computer?"
     @players << player_type.new(:o)
   end
-  
+
   def player_type
     while true
       type = gets.chomp.downcase
@@ -171,29 +167,29 @@ class Game
       puts "Invalid input"
     end
   end
-  
+
   def play
     greet
     count = 0
     until @board.won? || count > 8
       player = @players[count % 2]
-      
+
       puts "#{player.mark.upcase}'s turn."
       @board.place_mark(player.get_move(@board), player.mark)
       count += 1
-      
+
       puts "\nCurrent Board:"
       p @board
       puts ""
     end
     if @board.won?
       puts "#{@board.winner.upcase} wins!"
-    else 
+    else
       puts "Tie!"
     end
-    
+
   end
-  
+
 end
 
 game = Game.new
