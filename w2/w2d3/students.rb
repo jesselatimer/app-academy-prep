@@ -14,9 +14,20 @@ class Student
 
   def enroll(*courses_for_enrollment)
     courses_for_enrollment.each do |course|
+      if has_conflict?(course)
+        raise "#{course.name} conflicts with another class"
+        next
+      end
       @courses << course
-      course.add_student(self) unless course.students.include?(self)
+      course.add_student(self)
     end
+  end
+
+  def has_conflict?(new_course)
+    @courses.each do |current_course|
+      return true if new_course.conflicts_with?(current_course)
+    end
+    false
   end
 
   def courses_by_name
@@ -35,12 +46,14 @@ end
 
 class Course
 
-  attr_reader :name, :dept, :credits, :students
+  attr_reader :name, :dept, :credits, :students, :days, :block
 
-  def initialize(name, dept, credits)
+  def initialize(name, dept, credits, days, block)
     @name = name
     @dept = dept
     @credits = credits
+    @days = days
+    @block = block
     @students = []
   end
 
@@ -50,6 +63,13 @@ class Course
 
   def add_student(student)
     @students << student
+  end
+
+  def conflicts_with?(course)
+    @days.each do |day|
+      return true if course.days.include?(day) && @block == course.block
+    end
+    false
   end
 
 end
