@@ -1,4 +1,5 @@
 # Pair programmed by Jesse Latimer and Kata Martin
+# App Academy, w2d4, 6/4/2015
 
 class Board
   attr_reader :grid
@@ -103,12 +104,24 @@ class HumanPlayer
 
   def get_move(board)
     puts "What is your move?"
-    pos = gets.chomp.split(",").map { |num| num.to_i }
+    pos = get_player_input
     until board.on_grid?(pos) && board.empty?(pos)
       puts "Invalid input. Choose an empty position on the grid."
-      pos = gets.chomp.split(",").map { |num| num.to_i }
+      puts "Enter the row, then the column, as in: 'top left' or '0,0'."
+      pos = get_player_input
     end
     pos
+  end
+
+  def get_player_input
+    positions = {"top"    => 0, "left"   => 0,
+                 "center" => 1, "middle" => 1,
+                 "bottom" => 2, "right"  => 2}
+    input = gets.chomp
+    return [1, 1] if input == "center"
+    input.split(/,| /).map do |el|
+      positions.has_key?(el) ? positions[el] : el.to_i
+    end
   end
 
 end
@@ -162,7 +175,7 @@ class Game
   def player_type
     while true
       type = gets.chomp.downcase
-      return HumanPlayer if type == "human"
+      return HumanPlayer    if type == "human"
       return ComputerPlayer if type == "computer"
       puts "Invalid input"
     end
