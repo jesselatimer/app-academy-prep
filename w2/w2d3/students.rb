@@ -53,20 +53,3 @@ class Course
   end
 
 end
-
-hist101 = Course.new("History for Dummies", "HIST", 4)
-math101 = Course.new("Introduction to Algebra", "MATH", 4)
-math403 = Course.new("Really Hard Math for Science", "MATH", 4)
-jesselatimer = Student.new("Jesse", "Latimer")
-lizcarr = Student.new("Liz", "Carr")
-
-puts jesselatimer.name                # => Jesse Latimer
-puts jesselatimer.courses_by_name     # => empty
-jesselatimer.enroll(hist101)          # =>
-puts jesselatimer.courses_by_name     # => History for Dummies
-puts hist101.students_by_name         # => Jesse Latimer
-lizcarr.enroll(hist101)
-lizcarr.enroll(math101, math403)
-puts lizcarr.courses_by_name
-puts hist101.students_by_name
-puts lizcarr.course_load
