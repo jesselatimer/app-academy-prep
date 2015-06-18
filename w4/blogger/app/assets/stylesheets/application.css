@@ -13,3 +13,6 @@
  *= require_tree .
  *= require_self
  */
+
+#sidebar { width: 20% }
+#content { width: 70%; clear: none; }

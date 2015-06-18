@@ -12,17 +12,23 @@
   </p>
   <h1><%=  link_to "Blogger2", articles_path, style: "color: white;" %></h1>
   <div id="container">
+    <div id="sidebar">
+      <ul>
+        <li><%= link_to "All Articles", articles_path %></li>
+        <li><%= link_to "All Tags", tags_path %></li>
+        <li>&nbsp;</li>
+        <% if logged_in? %>
+        <li>
+            <%= "Logged in as #{current_user.email}" %>
+            <%= link_to "(logout)", logout_path %>
+          <% else %>
+            <%= link_to "(login)", login_path %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
     <div id="content">
       <%= yield %>
-      <hr>
-      <h6>
-        <% if logged_in? %>
-          <%= "Logged in as #{current_user.email}" %>
-          <%= link_to "(logout)", logout_path %>
-        <% else %>
-          <%= link_to "(login)", login_path %>
-        <% end %>
-      </h6>
     </div>
   </div>
 </body>
