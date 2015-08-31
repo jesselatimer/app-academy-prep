@@ -1,2 +1,3 @@
-# app-academy-prep
-Jesse Latimer's App Academy Prep Coursework
+# App Academy Prep Work
+
+Prep work for a/A, by Jesse Latimer.
